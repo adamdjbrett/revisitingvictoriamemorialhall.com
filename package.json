@@ -1,0 +1,21 @@
+{
+  "name": "revisitingvictoriamemorialhall.com",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Coming-soon website for Revisiting Victoria Memorial Hall.",
+  "license": "MIT",
+  "scripts": {
+    "clean": "node -e \"require('node:fs').rmSync('_site', { recursive: true, force: true })\"",
+    "dev": "npm run clean && eleventy --serve",
+    "build": "npm run clean && eleventy",
+    "start": "npm run dev",
+    "test": "npm run build && python3 scripts/check_build.py"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "3.1.7",
+    "js-yaml": "4.3.2"
+  }
+}

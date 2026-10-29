@@ -1,0 +1,25 @@
+---
+permalink: /feed/feed.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="/feed/feed.xsl"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="{{ site.language | escape }}">
+  <title>{{ site.title | escape }}</title>
+  <subtitle>{{ site.description | escape }}</subtitle>
+  <id>{{ site.url }}/feed/feed.xml</id>
+  <link href="{{ site.url }}/feed/feed.xml" rel="self" type="application/atom+xml"/>
+  <link href="{{ site.url }}/" rel="alternate" type="text/html"/>
+  {% set latest = collections.pages | last %}
+  <updated>{{ latest.date | isoDate }}</updated>
+  <author><name>{{ site.title | escape }}</name></author>
+  {% for entry in collections.pages | reverse %}
+  <entry>
+    <title>{{ entry.data.title | escape }}</title>
+    <id>{{ site.url }}{{ entry.url }}</id>
+    <link href="{{ site.url }}{{ entry.url }}"/>
+    <updated>{{ entry.date | isoDate }}</updated>
+    <summary>{{ (entry.data.description or site.description) | escape }}</summary>
+  </entry>
+  {% endfor %}
+</feed>

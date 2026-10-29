@@ -1,0 +1,17 @@
+@import url("style.css");
+
+:root {
+  --color-rule: #555b70;
+  --color-muted: #e6e8f2;
+  --font-display: Urbanist, sans-serif;
+}
+body { color: #fff; }
+a { color: inherit; text-underline-offset: 4px; }
+a:focus-visible { outline: 3px solid #ffb27a; outline-offset: 3px; }
+
+main { max-width: 760px; margin: 0 auto; padding: 64px 24px; }
+h1 { font-size: clamp(40px, 7vw, 64px); line-height: 1.1; }
+p { line-height: 1.7; }
+article { border-top: 1px solid var(--color-rule); margin-top: 32px; padding-top: 16px; }
+h2 { font-family: var(--font-display); font-weight: 400; font-size: 28px; line-height: 1.2; }
+time { font-size: 14px; color: var(--color-muted); }

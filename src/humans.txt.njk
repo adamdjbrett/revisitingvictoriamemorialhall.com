@@ -1,0 +1,26 @@
+---
+permalink: /humans.txt
+eleventyExcludeFromCollections: true
+---
+/* PROJECT */
+Name: {{ site.title }}
+Website: {{ site.url }}/
+Description: {{ site.description }}
+
+/* RESEARCH */
+{% for person in site.team %}
+Name: {{ person.name }}
+Affiliation: {{ person.affiliation }}
+Role: {{ person.role }}
+Profile: {{ person.url }}
+{% endfor %}
+/* SITE */
+{% for person in site.websiteTeam %}
+Name: {{ person.name }}
+Role: {{ person.role }}
+{% endfor %}
+Standards: HTML5, CSS, Atom 1.0, XSLT 1.0
+Generator: Eleventy
+Typeface: Urbanist
+Template origin: Colorlib Coming Soon Page V01
+Code license: MIT; third-party assets and photographs retain their own rights.

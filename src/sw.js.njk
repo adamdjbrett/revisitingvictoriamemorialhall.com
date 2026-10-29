@@ -1,0 +1,36 @@
+---
+permalink: /sw.js
+eleventyExcludeFromCollections: true
+---
+const VERSION = 'vmh-{{ cacheVersion }}';
+const ASSETS = {{ offlineAssets | dump | safe }};
+const PATHS = new Set(ASSETS);
+
+self.addEventListener('install', event => {
+  event.waitUntil(caches.open(VERSION).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
+});
+
+self.addEventListener('activate', event => {
+  event.waitUntil(caches.keys().then(keys => Promise.all(
+    keys.filter(key => key.startsWith('vmh-') && key !== VERSION).map(key => caches.delete(key))
+  )).then(() => self.clients.claim()));
+});
+
+self.addEventListener('fetch', event => {
+  const url = new URL(event.request.url);
+  const path = url.pathname === '/index.html' ? '/' : url.pathname;
+  if (event.request.method !== 'GET' || url.origin !== self.location.origin || !PATHS.has(path)) return;
+
+  event.respondWith((async () => {
+    try {
+      const response = await fetch(event.request);
+      if (response.ok) {
+        // Cache writes are optional: storage limits must not break an online page.
+        event.waitUntil(caches.open(VERSION).then(cache => cache.put(path, response.clone())).catch(() => {}));
+      }
+      return response;
+    } catch {
+      return await caches.match(path, { cacheName: VERSION }) || Response.error();
+    }
+  })());
+});

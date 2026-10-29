@@ -19,16 +19,21 @@ permalink: /index.html
   <link rel="canonical" href="{{ site.url }}/">
   <link rel="author" href="/humans.txt">
   <link rel="alternate" type="application/atom+xml" title="{{ site.title | escape }}" href="{{ site.url }}/feed/feed.xml">
-  <link rel="icon" href="data:,">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
   <link rel="stylesheet" href="/assets/css/style.css">
-  <link rel="stylesheet" href="/assets/css/project.css">
+  <script src="/pwa.js" defer></script>
 </head>
 <body>
   <div class="cl-soon01">
-    <img class="cl-soon01__bg" src="/assets/images/Victoria_Memorial_situated_in_Kolkata.webp" width="2560" height="1146" fetchpriority="high" alt="Victoria Memorial Hall in Kolkata, its white marble dome and wings seen across the lawn.">
+    <picture>
+      <source media="(max-width: 560px)" srcset="/assets/images/Victoria_Memorial_situated_in_Kolkata-mobile.webp">
+      <img class="cl-soon01__bg" src="/assets/images/Victoria_Memorial_situated_in_Kolkata.webp" width="1920" height="859" fetchpriority="high" alt="Victoria Memorial Hall in Kolkata, its white marble dome and wings seen across the lawn.">
+    </picture>
     <header class="cl-soon01__bar">
       <a class="cl-soon01__logo" href="/">R / VMH</a>
-      <a class="cl-soon01__contact" href="#project">About the project</a>
+      <a class="cl-soon01__contact" href="https://arthistory.yale.edu/news/taj-raj-new-perspectives-victoria-memorial-hall">About the project</a>
     </header>
 
     <main class="cl-soon01__main" id="main">
@@ -51,24 +56,11 @@ permalink: /index.html
       <p class="cl-soon01__copy">Kolkata · An international research project</p>
       <div class="project-credit">
         <p><a href="https://commons.wikimedia.org/wiki/File:Victoria_Memorial_situated_in_Kolkata.jpg">Subhrajyoti07</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons</p>
-        <p>Resized and converted to WebP.</p>
+        <p>Resized and converted to WebP. Phone version cropped.</p>
       </div>
     </footer>
   </div>
 
-  <section class="cl-soon01 project-detail" id="project" aria-labelledby="project-title">
-    <div class="cl-soon01__main">
-      <h2 class="project-heading" id="project-title">A closer look. A different perspective.</h2>
-      <p class="cl-soon01__text">Bringing together scholars from India, the United Kingdom and the United States, this project explores the art, architecture, gardens and collections of Victoria Memorial Hall, Kolkata. It places Indian histories at the centre of a fresh examination of the Memorial’s imperial past and its meanings today.</p>
-      <p class="cl-soon01__text">The research builds on a 2023 workshop in Kolkata and <cite>Taj of the Raj</cite>, the international symposium at Yale co-convened by Romita Ray (Syracuse University) and Tim Barringer (Yale University).</p>
-      <figure class="project-figure">
-        <a href="/assets/images/Fig.1_snake_Jalais.jpg" aria-label="View the full photograph of the marble sculpture">
-          <img src="/assets/images/Fig.1_snake_Jalais.jpg" width="795" height="1413" loading="lazy" alt="A seated marble figure holding a snake, with the ornate architecture of Victoria Memorial Hall behind it.">
-        </a>
-        <figcaption class="cl-soon01__note">Victoria Memorial Hall · Fig. 01 · Jalais<br>View photograph ↗</figcaption>
-      </figure>
-      <p class="cl-soon01__note">Art · Architecture · Gardens · Collections</p>
-    </div>
-  </section>
+
 </body>
 </html>

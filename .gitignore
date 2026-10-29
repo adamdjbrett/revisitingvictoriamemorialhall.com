@@ -151,3 +151,4 @@ vite.config.ts.timestamp-*
 # Site output and macOS metadata
 _site/
 .DS_Store
+.reports/

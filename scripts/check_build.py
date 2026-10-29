@@ -4,6 +4,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 from datetime import datetime
 import re
+import json
 import xml.etree.ElementTree as ET
 
 output = Path(__file__).resolve().parents[1] / "_site"
@@ -22,9 +23,11 @@ class Page(HTMLParser):
         for key in ("href", "src"):
             if attrs.get(key):
                 self.links.append(attrs[key])
+        if attrs.get("srcset"):
+            self.links.extend(candidate.strip().split()[0] for candidate in attrs["srcset"].split(","))
 
 
-for route in ("index.html", "humans.txt", "robots.txt", "sitemap.txt", "feed/feed.xml", "feed/feed.xsl"):
+for route in ("index.html", "humans.txt", "robots.txt", "sitemap.txt", "feed/feed.xml", "feed/feed.xsl", "manifest.webmanifest", "sw.js", "pwa.js"):
     assert (output / route).is_file(), f"Missing route: {route}"
 for removed in ("coming-soon-page-01", "assets/js", "assets/css/styles.css"):
     assert not (output / removed).exists(), f"Stale output: {removed}"
@@ -40,7 +43,18 @@ assert webp[:4] == b"RIFF" and webp[8:12] == b"WEBP"
 assert 'https://commons.wikimedia.org/wiki/File:Victoria_Memorial_situated_in_Kolkata.jpg' in home.links
 assert 'https://creativecommons.org/licenses/by-sa/4.0' in home.links
 assert 'Subhrajyoti07' in homepage and 'Resized and converted to WebP.' in homepage
-assert '/assets/images/Fig.1_snake_Jalais.jpg' in home.links
+assert 'project-detail' not in homepage and 'Fig.1_snake_Jalais' not in homepage
+assert homepage.count('<script ') == 1 and 'src="/pwa.js" defer' in homepage
+manifest = json.loads((output / 'manifest.webmanifest').read_text())
+assert manifest['start_url'] == '/' and manifest['display'] == 'standalone'
+for icon in manifest['icons']:
+    assert (output / icon['src'].lstrip('/')).is_file()
+assert {icon['sizes'] for icon in manifest['icons']} >= {'192x192', '512x512'}
+assert not list(output.rglob('*.jpg')) and not list(output.rglob('*.JPG'))
+assert not (output / 'assets/fonts').exists()
+css = (output / 'assets/css/style.css').read_text()
+assert "font-family:Didot,'Bodoni MT','Noto Serif Display','URW Palladio L',P052,Sylfaen,serif" in css
+assert set(re.findall(r'font-weight:([^;}]+)', css)) == {'normal'}
 assert home.canonical and home.canonical.startswith("https://")
 base = home.canonical.rstrip("/")
 sitemap_urls = set((output / "sitemap.txt").read_text().splitlines()) - {""}

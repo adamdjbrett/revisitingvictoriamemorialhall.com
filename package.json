@@ -9,7 +9,7 @@
     "dev": "npm run clean && eleventy --serve",
     "build": "npm run clean && eleventy",
     "start": "npm run dev",
-    "test": "npm run build && python3 scripts/check_build.py"
+    "test": "npm run build && python3 scripts/check_build.py && node scripts/check_pwa.cjs"
   },
   "engines": {
     "node": ">=18"

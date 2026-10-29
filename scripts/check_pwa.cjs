@@ -34,7 +34,7 @@ const vm = require('node:vm');
   let pending;
   handlers.install({ waitUntil: promise => { pending = promise; } });
   await pending;
-  assert(installed.includes('/') && installed.includes('/assets/css/style.css'));
+  assert(installed.includes('/') && installed.some(path => /\/assets\/[a-f0-9]{12}\/pwa.js$/.test(path)));
   for (const path of installed) readFileSync(`_site${path === '/' ? '/index.html' : path}`);
   handlers.activate({ waitUntil: promise => { pending = promise; } });
   await pending;

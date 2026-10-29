@@ -8,6 +8,7 @@ permalink: /index.html
 <html lang="{{ site.language }}">
 <head>
   <meta charset="utf-8">
+  <meta name="generator" content="{{ generator | escape }}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#1a1d2b">
   <meta name="description" content="{{ site.description | escape }}">
@@ -20,16 +21,16 @@ permalink: /index.html
   <link rel="author" href="/humans.txt">
   <link rel="alternate" type="application/atom+xml" title="{{ site.title | escape }}" href="{{ site.url }}/feed/feed.xml">
   <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
-  <link rel="stylesheet" href="/assets/css/style.css">
-  <script src="/pwa.js" defer></script>
+  <link rel="icon" href="{{ assetPrefix }}/icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{{ assetPrefix }}/icons/icon-192.png">
+  <style>{{ criticalCss | safe }}</style>
+  <script src="{{ assetPrefix }}/pwa.js" defer></script>
 </head>
 <body>
   <div class="cl-soon01">
     <picture>
-      <source media="(max-width: 560px)" srcset="/assets/images/Victoria_Memorial_situated_in_Kolkata-mobile.webp">
-      <img class="cl-soon01__bg" src="/assets/images/Victoria_Memorial_situated_in_Kolkata.webp" width="1920" height="859" fetchpriority="high" alt="Victoria Memorial Hall in Kolkata, its white marble dome and wings seen across the lawn.">
+      <source media="(max-width: 560px)" srcset="{{ assetPrefix }}/images/Victoria_Memorial_situated_in_Kolkata-mobile.webp">
+      <img class="cl-soon01__bg" src="{{ assetPrefix }}/images/Victoria_Memorial_situated_in_Kolkata.webp" width="1920" height="859" fetchpriority="high" alt="Victoria Memorial Hall in Kolkata, its white marble dome and wings seen across the lawn.">
     </picture>
     <header class="cl-soon01__bar">
       <a class="cl-soon01__logo" href="/">R / VMH</a>
@@ -53,14 +54,11 @@ permalink: /index.html
     </main>
 
     <footer class="cl-soon01__foot">
-      <p class="cl-soon01__copy">Kolkata · An international research project</p>
+      <p class="cl-soon01__copy">Revisiting Victoria Memorial Hall –– An international research project</p>
       <div class="project-credit">
         <p><a href="https://commons.wikimedia.org/wiki/File:Victoria_Memorial_situated_in_Kolkata.jpg">Subhrajyoti07</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons</p>
-        <p>Resized and converted to WebP. Phone version cropped.</p>
       </div>
     </footer>
   </div>
-
-
 </body>
 </html>

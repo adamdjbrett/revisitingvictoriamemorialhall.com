@@ -6,16 +6,16 @@
   "license": "MIT",
   "scripts": {
     "clean": "node -e \"require('node:fs').rmSync('_site', { recursive: true, force: true })\"",
-    "dev": "npm run clean && eleventy --serve",
-    "build": "npm run clean && eleventy",
+    "dev": "npm run clean && buildawesome --serve",
+    "build": "npm run clean && buildawesome",
     "start": "npm run dev",
-    "test": "npm run build && python3 scripts/check_build.py && node scripts/check_pwa.cjs"
+    "test": "npm run build && python3 scripts/check_build.py && node scripts/check_pwa.cjs && node scripts/check_http.cjs"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=22.15"
   },
   "devDependencies": {
-    "@11ty/eleventy": "3.1.7",
+    "@awesome.me/buildawesome": "4.0.0-alpha.10",
     "js-yaml": "4.3.2"
   }
 }

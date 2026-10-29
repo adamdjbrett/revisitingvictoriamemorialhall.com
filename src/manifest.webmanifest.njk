@@ -1,6 +1,6 @@
 ---
 permalink: /manifest.webmanifest
-eleventyExcludeFromCollections: true
+buildawesomeExcludeFromCollections: true
 ---
 {
   "id": "/",
@@ -14,7 +14,7 @@ eleventyExcludeFromCollections: true
   "background_color": "#1a1d2b",
   "theme_color": "#1a1d2b",
   "icons": [
-    {"src": "/assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
-    {"src": "/assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+    {"src": "{{ assetPrefix }}/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "{{ assetPrefix }}/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
   ]
 }

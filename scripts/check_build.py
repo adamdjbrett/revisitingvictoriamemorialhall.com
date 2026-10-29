@@ -27,7 +27,7 @@ class Page(HTMLParser):
             self.links.extend(candidate.strip().split()[0] for candidate in attrs["srcset"].split(","))
 
 
-for route in ("index.html", "humans.txt", "robots.txt", "sitemap.txt", "feed/feed.xml", "feed/feed.xsl", "manifest.webmanifest", "sw.js", "pwa.js"):
+for route in ("index.html", "humans.txt", "robots.txt", "sitemap.txt", "feed/feed.xml", "feed/feed.xsl", "manifest.webmanifest", "sw.js", "_headers"):
     assert (output / route).is_file(), f"Missing route: {route}"
 for removed in ("coming-soon-page-01", "assets/js", "assets/css/styles.css"):
     assert not (output / removed).exists(), f"Stale output: {removed}"
@@ -35,24 +35,33 @@ for removed in ("coming-soon-page-01", "assets/js", "assets/css/styles.css"):
 home = Page()
 home.feed((output / "index.html").read_text())
 homepage = (output / "index.html").read_text()
+build_version = json.loads((output.parent / 'package.json').read_text())['devDependencies']['@awesome.me/buildawesome']
+generator = f'Build Awesome v{build_version}'
+assert f'<meta name="generator" content="{generator}">' in homepage
+assert f'Generator: {generator}' in (output / 'humans.txt').read_text()
+manifest = json.loads((output / 'manifest.webmanifest').read_text())
+asset_prefix = manifest['icons'][0]['src'].rsplit('/icons/', 1)[0]
+assert re.fullmatch(r'/assets/[a-f0-9]{12}', asset_prefix)
+assets = output / asset_prefix.lstrip('/')
 assert 'class="cl-soon01__title"' in homepage
-assert '/assets/css/style.css' in home.links
-assert '/assets/images/Victoria_Memorial_situated_in_Kolkata.webp' in home.links
-webp = (output / "assets/images/Victoria_Memorial_situated_in_Kolkata.webp").read_bytes()
+assert '<style>' in homepage and 'rel="stylesheet"' not in homepage
+assert f'{asset_prefix}/images/Victoria_Memorial_situated_in_Kolkata.webp' in home.links
+webp = (assets / "images/Victoria_Memorial_situated_in_Kolkata.webp").read_bytes()
 assert webp[:4] == b"RIFF" and webp[8:12] == b"WEBP"
 assert 'https://commons.wikimedia.org/wiki/File:Victoria_Memorial_situated_in_Kolkata.jpg' in home.links
 assert 'https://creativecommons.org/licenses/by-sa/4.0' in home.links
 assert 'Subhrajyoti07' in homepage and 'Resized and converted to WebP.' in homepage
 assert 'project-detail' not in homepage and 'Fig.1_snake_Jalais' not in homepage
-assert homepage.count('<script ') == 1 and 'src="/pwa.js" defer' in homepage
-manifest = json.loads((output / 'manifest.webmanifest').read_text())
+assert homepage.count('<script ') == 1 and f'src="{asset_prefix}/pwa.js" defer' in homepage
+assert '.11ty/' not in homepage
 assert manifest['start_url'] == '/' and manifest['display'] == 'standalone'
 for icon in manifest['icons']:
     assert (output / icon['src'].lstrip('/')).is_file()
 assert {icon['sizes'] for icon in manifest['icons']} >= {'192x192', '512x512'}
 assert not list(output.rglob('*.jpg')) and not list(output.rglob('*.JPG'))
-assert not (output / 'assets/fonts').exists()
-css = (output / 'assets/css/style.css').read_text()
+assert not list(output.rglob('*.woff2'))
+css = (assets / 'css/style.css').read_text()
+assert css in homepage
 assert "font-family:Didot,'Bodoni MT','Noto Serif Display','URW Palladio L',P052,Sylfaen,serif" in css
 assert set(re.findall(r'font-weight:([^;}]+)', css)) == {'normal'}
 assert home.canonical and home.canonical.startswith("https://")

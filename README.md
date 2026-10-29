@@ -50,6 +50,8 @@ src/
   sitemap.txt.njk             Generates /sitemap.txt
   feed/
     feed.xml.njk              Generates /feed/feed.xml (Atom 1.0)
+    feed.json.njk             Generates /feed/feed.json (JSON Feed 1.1)
+    twtxt.txt.njk             Generates /feed/twtxt.txt (timestamp + TAB + text)
     feed.xsl.njk              Generates the feed’s XSLT 1.0 stylesheet
 originals/images/             Preserved source JPEGs; excluded from deployment
 scripts/check_build.py        Build verification
@@ -62,6 +64,13 @@ Set `url` in `src/_data/site.yaml` to the production origin, without a trailing
 slash. It is currently `https://revisitingvictoriamemorialhall.com`.
 Canonical metadata, robots, sitemap, humans, and feed URLs use this value.
 This setting does not configure DNS or hosting.
+
+Edit homepage content in `src/_data/site.yaml`: `home` contains the headings,
+labels, notice lines, and footer; `resources` contains research links;
+`background` contains the image filenames, dimensions, alt text, and credits.
+The page renders these values through Nunjucks, and the offline cache uses
+the same image filenames. `title` also supplies the page heading, feed, and
+PWA name. The page title is computed from `title` and `home.titleSuffix`.
 
 The homepage retains the appearance of Colorlib’s Coming Soon Page V01.
 Unused controls, framework resets, and duplicate styles were removed; active

@@ -1,0 +1,6 @@
+---
+permalink: /feed/twtxt.txt
+buildawesomeExcludeFromCollections: true
+---
+{% for entry in collections.pages | reverse %}{{ entry.date | isoDate }}	{{ entry.data.title | replace(r/[\x00-\x1f\x7f-\x9f]+/g, " ") | trim }} {{ site.url }}{{ entry.url }}
+{% endfor %}

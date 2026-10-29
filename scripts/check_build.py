@@ -27,7 +27,7 @@ class Page(HTMLParser):
             self.links.extend(candidate.strip().split()[0] for candidate in attrs["srcset"].split(","))
 
 
-for route in ("index.html", "humans.txt", "robots.txt", "sitemap.txt", "feed/feed.xml", "feed/feed.xsl", "manifest.webmanifest", "sw.js", "_headers"):
+for route in ("index.html", "humans.txt", "robots.txt", "sitemap.txt", "feed/feed.xml", "feed/feed.json", "feed/twtxt.txt", "feed/feed.xsl", "manifest.webmanifest", "sw.js", "_headers"):
     assert (output / route).is_file(), f"Missing route: {route}"
 for removed in ("coming-soon-page-01", "assets/js", "assets/css/styles.css"):
     assert not (output / removed).exists(), f"Stale output: {removed}"
@@ -45,12 +45,14 @@ assert re.fullmatch(r'/assets/[a-f0-9]{12}', asset_prefix)
 assets = output / asset_prefix.lstrip('/')
 assert 'class="cl-soon01__title"' in homepage
 assert '<style>' in homepage and 'rel="stylesheet"' not in homepage
-assert f'{asset_prefix}/images/Victoria_Memorial_situated_in_Kolkata.webp' in home.links
-webp = (assets / "images/Victoria_Memorial_situated_in_Kolkata.webp").read_bytes()
-assert webp[:4] == b"RIFF" and webp[8:12] == b"WEBP"
+image_links = [link for link in home.links if link.endswith('.webp')]
+assert image_links
+for link in image_links:
+    webp = (output / link.lstrip('/')).read_bytes()
+    assert webp[:4] == b"RIFF" and webp[8:12] == b"WEBP"
 assert 'https://commons.wikimedia.org/wiki/File:Victoria_Memorial_situated_in_Kolkata.jpg' in home.links
 assert 'https://creativecommons.org/licenses/by-sa/4.0' in home.links
-assert 'Subhrajyoti07' in homepage and 'Resized and converted to WebP.' in homepage
+assert 'Subhrajyoti07' in homepage
 assert 'project-detail' not in homepage and 'Fig.1_snake_Jalais' not in homepage
 assert homepage.count('<script ') == 1 and f'src="{asset_prefix}/pwa.js" defer' in homepage
 assert '.11ty/' not in homepage
@@ -107,8 +109,28 @@ for entry in entries:
 assert 'href="/feed/feed.xsl"' in feed_path.read_text()
 ET.parse(output / "feed/feed.xsl")
 
+json_feed = json.loads((output / "feed/feed.json").read_text())
+assert json_feed['version'] == 'https://jsonfeed.org/version/1.1'
+assert json_feed['title'] == feed.findtext('a:title', namespaces=ns)
+assert json_feed['home_page_url'] == base + '/'
+assert json_feed['feed_url'] == base + '/feed/feed.json'
+assert {item['id'] for item in json_feed['items']} == sitemap_urls
+for item in json_feed['items']:
+    assert item['url'] == item['id'] and item['title'] and item['content_text']
+    datetime.fromisoformat(item['date_published'])
+
+twtxt = (output / "feed/twtxt.txt").read_bytes()
+assert b'\r' not in twtxt
+statuses = [line for line in twtxt.decode('utf-8').splitlines() if line]
+assert len(statuses) == len(json_feed['items'])
+for line, item in zip(statuses, json_feed['items']):
+    timestamp, text = line.split('\t', 1)
+    assert timestamp == item['date_published']
+    assert text.endswith(' ' + item['url'])
+    assert not re.search(r'[\x00-\x1f\x7f-\x9f]', text)
+
 for file in output.rglob("*"):
     if file.is_file() and file.suffix in (".html", ".txt", ".xml"):
         assert "{{" not in file.read_text(), f"Unrendered template: {file}"
 
-print("PASS: generated routes, domain, HTML/CSS assets, team credits, Atom feed, and XSL XML.")
+print("PASS: generated routes, domain, assets, credits, Atom/JSON/twtxt feeds, and XSL XML.")

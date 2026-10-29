@@ -1,8 +1,9 @@
 ---
-title: Revisiting Victoria Memorial Hall — Coming Soon
 date: 2026-10-29
 tags: pages
 permalink: /index.html
+buildawesomeComputed:
+  title: "{{ site.title }} — {{ site.home.titleSuffix }}"
 ---
 <!doctype html>
 <html lang="{{ site.language }}">
@@ -10,16 +11,17 @@ permalink: /index.html
   <meta charset="utf-8">
   <meta name="generator" content="{{ generator | escape }}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#1a1d2b">
+  <meta name="theme-color" content="{{ site.themeColor | escape }}">
   <meta name="description" content="{{ site.description | escape }}">
-  <title>{{ title }}</title>
+  <title>{{ title | escape }}</title>
   <meta property="og:title" content="{{ site.title | escape }}">
   <meta property="og:url" content="{{ site.url }}/">
-  <meta property="og:description" content="Exploring the Indian histories and imperial legacies of Victoria Memorial Hall, Kolkata. Research website coming soon.">
+  <meta property="og:description" content="{{ site.openGraphDescription | escape }}">
   <meta property="og:type" content="website">
   <link rel="canonical" href="{{ site.url }}/">
   <link rel="author" href="/humans.txt">
   <link rel="alternate" type="application/atom+xml" title="{{ site.title | escape }}" href="{{ site.url }}/feed/feed.xml">
+  <link rel="alternate" type="application/feed+json" title="{{ site.title | escape }}" href="{{ site.url }}/feed/feed.json">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="icon" href="{{ assetPrefix }}/icons/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="{{ assetPrefix }}/icons/icon-192.png">
@@ -29,34 +31,34 @@ permalink: /index.html
 <body>
   <div class="cl-soon01">
     <picture>
-      <source media="(max-width: 560px)" srcset="{{ assetPrefix }}/images/Victoria_Memorial_situated_in_Kolkata-mobile.webp">
-      <img class="cl-soon01__bg" src="{{ assetPrefix }}/images/Victoria_Memorial_situated_in_Kolkata.webp" width="1920" height="859" fetchpriority="high" alt="Victoria Memorial Hall in Kolkata, its white marble dome and wings seen across the lawn.">
+      <source media="(max-width: 560px)" srcset="{{ assetPrefix }}/images/{{ site.background.mobile.file | escape }}">
+      <img class="cl-soon01__bg" src="{{ assetPrefix }}/images/{{ site.background.desktop.file | escape }}" width="{{ site.background.desktop.width }}" height="{{ site.background.desktop.height }}" fetchpriority="high" alt="{{ site.background.alt | escape }}">
     </picture>
     <header class="cl-soon01__bar">
-      <a class="cl-soon01__logo" href="/">R / VMH</a>
-      <a class="cl-soon01__contact" href="https://arthistory.yale.edu/news/taj-raj-new-perspectives-victoria-memorial-hall">About the project</a>
+      <a class="cl-soon01__logo" href="/">{{ site.home.wordmark | escape }}</a>
+      <a class="cl-soon01__contact" href="{{ site.resources.symposium.url | escape }}">{{ site.home.aboutLabel | escape }}</a>
     </header>
 
     <main class="cl-soon01__main" id="main">
-      <p class="cl-soon01__eyebrow">Coming soon</p>
-      <h1 class="cl-soon01__title">Revisiting Victoria Memorial Hall</h1>
-      <p class="cl-soon01__text">New perspectives on an imperial landmark.</p>
+      <p class="cl-soon01__eyebrow">{{ site.home.status | escape }}</p>
+      <h1 class="cl-soon01__title">{{ site.title | escape }}</h1>
+      <p class="cl-soon01__text">{{ site.home.tagline | escape }}</p>
 
-      <nav class="cl-soon01__count" aria-label="Read about the project">
-        <a class="cl-soon01__unit" href="https://arthistory.yale.edu/news/taj-raj-new-perspectives-victoria-memorial-hall"><span class="cl-soon01__lbl">The Yale symposium</span></a>
+      <nav class="cl-soon01__count" aria-label="{{ site.home.researchLabel | escape }}">
+        <a class="cl-soon01__unit" href="{{ site.resources.symposium.url | escape }}"><span class="cl-soon01__lbl">{{ site.resources.symposium.label | escape }}</span></a>
         {% for person in site.team %}
-        <a class="cl-soon01__unit" href="{{ person.url }}"><span class="cl-soon01__lbl">About {{ person.name }}</span></a>
+        <a class="cl-soon01__unit" href="{{ person.url | escape }}"><span class="cl-soon01__lbl">{{ site.home.personLinkPrefix | escape }} {{ person.name | escape }}</span></a>
         {% endfor %}
-        <a class="cl-soon01__unit" href="https://artsandsciences.syracuse.edu/news-all/news-2024/international-team-of-scholars-explore-the-imperial-histories-of-indias-most-visited-museum/"><span class="cl-soon01__lbl">The research at Syracuse</span></a>
+        <a class="cl-soon01__unit" href="{{ site.resources.research.url | escape }}"><span class="cl-soon01__lbl">{{ site.resources.research.label | escape }}</span></a>
       </nav>
 
-      <p class="cl-soon01__note">Our research website is in preparation.<br>Explore the project while we get ready.</p>
+      <p class="cl-soon01__note">{% for line in site.home.notice %}{{ line | escape }}{% if not loop.last %}<br>{% endif %}{% endfor %}</p>
     </main>
 
     <footer class="cl-soon01__foot">
-      <p class="cl-soon01__copy">Revisiting Victoria Memorial Hall –– An international research project</p>
+      <p class="cl-soon01__copy">{{ site.home.footer | escape }}</p>
       <div class="project-credit">
-        <p><a href="https://commons.wikimedia.org/wiki/File:Victoria_Memorial_situated_in_Kolkata.jpg">Subhrajyoti07</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons</p>
+        <p><a href="{{ site.background.credit.url | escape }}">{{ site.background.credit.photographer | escape }}</a>, <a href="{{ site.background.credit.licenseUrl | escape }}">{{ site.background.credit.license | escape }}</a>, {{ site.background.credit.source | escape }}</p>
       </div>
     </footer>
   </div>

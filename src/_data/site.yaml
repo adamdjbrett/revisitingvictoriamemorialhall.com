@@ -2,6 +2,41 @@ title: Revisiting Victoria Memorial Hall
 url: https://revisitingvictoriamemorialhall.com
 language: en
 description: New perspectives on the art, architecture, gardens and collections of Victoria Memorial Hall, Kolkata. An international research project. Website coming soon.
+themeColor: "#1a1d2b"
+openGraphDescription: Exploring the Indian histories and imperial legacies of Victoria Memorial Hall, Kolkata. Research website coming soon.
+home:
+  titleSuffix: Coming Soon
+  wordmark: R / VMH
+  aboutLabel: About the project
+  status: Coming soon
+  tagline: New perspectives on an imperial landmark.
+  researchLabel: Read about the project
+  personLinkPrefix: About
+  notice:
+    - Our research website is in preparation.
+    - Explore the project while we get ready.
+  footer: Revisiting Victoria Memorial Hall –– An international research project
+resources:
+  symposium:
+    label: The Yale symposium
+    url: https://arthistory.yale.edu/news/taj-raj-new-perspectives-victoria-memorial-hall
+  research:
+    label: The research at Syracuse
+    url: https://artsandsciences.syracuse.edu/news-all/news-2024/international-team-of-scholars-explore-the-imperial-histories-of-indias-most-visited-museum/
+background:
+  desktop:
+    file: Victoria_Memorial_situated_in_Kolkata.webp
+    width: 1920
+    height: 859
+  mobile:
+    file: Victoria_Memorial_situated_in_Kolkata-mobile.webp
+  alt: Victoria Memorial Hall in Kolkata, its white marble dome and wings seen across the lawn.
+  credit:
+    photographer: Subhrajyoti07
+    url: https://commons.wikimedia.org/wiki/File:Victoria_Memorial_situated_in_Kolkata.jpg
+    license: CC BY-SA 4.0
+    licenseUrl: https://creativecommons.org/licenses/by-sa/4.0
+    source: via Wikimedia Commons
 team:
   - name: Romita Ray
     affiliation: Syracuse University

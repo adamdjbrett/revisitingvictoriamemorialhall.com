@@ -1,0 +1,23 @@
+---
+permalink: /feed/feed.json
+buildawesomeExcludeFromCollections: true
+---
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": {{ site.title | dump | safe }},
+  "home_page_url": {{ (site.url ~ "/") | dump | safe }},
+  "feed_url": {{ (site.url ~ "/feed/feed.json") | dump | safe }},
+  "description": {{ site.description | dump | safe }},
+  "language": {{ site.language | dump | safe }},
+  "items": [
+    {% for entry in collections.pages | reverse %}
+    {
+      "id": {{ (site.url ~ entry.url) | dump | safe }},
+      "url": {{ (site.url ~ entry.url) | dump | safe }},
+      "title": {{ entry.data.title | dump | safe }},
+      "content_text": {{ (entry.data.description or site.description) | dump | safe }},
+      "date_published": {{ (entry.date | isoDate) | dump | safe }}
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
